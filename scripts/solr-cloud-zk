@@ -1,0 +1,10 @@
+#!/bin/bash
+
+[ "$DEBUG" == 'true' ] && set -x
+
+if [ -z ${ZKHOSTS+x} ]; then
+	echo ZKHOSTS is not set 
+	exit 1
+fi
+
+solr start -c -f -z $ZKHOSTS
