@@ -4,8 +4,8 @@ RUN yum update -y && \
 	yum install -y wget && \
 	yum clean all
 
-ENV SOLR_USER="solr"
-	SOLR_GROUP="solr"
+ENV SOLR_USER="solr" \
+	SOLR_GROUP="solr" \
 	SOLR_URL="http://archive.apache.org/dist/lucene/solr/5.2.1/solr-5.2.1.tgz" \
     SOLR_SHA256="0351906cdeef48cdc85b3fe75dc5c038a90bae5f" \
 	PATH="/opt/solr/bin:$PATH"
@@ -22,10 +22,11 @@ RUN mkdir -p /opt/solr && \
   rm /opt/solr.tgz* && \
   rm -Rf /opt/solr/docs/
   
-EXPOSE 8983
-USER $SOLR_USER
-
-
 COPY scripts/* /opt/solr/bin/
+
+RUN chmod -R 755 /opt/solr && \
+    chown -R $SOLR_USER:$SOLR_GROUP /opt/solr
+
+USER $SOLR_USER
 
 CMD ["solr-cloud-zk"] 

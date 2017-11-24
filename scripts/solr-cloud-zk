@@ -7,4 +7,9 @@ if [ -z ${ZKHOSTS+x} ]; then
 	exit 1
 fi
 
-solr start -c -f -z $ZKHOSTS
+if [ -z ${SOLR_PORT+x} ]; then
+	echo SOLR_PORT is not set 
+	exit 1
+fi
+
+solr start -c -f -z $ZKHOSTS -p $SOLR_PORT
